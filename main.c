@@ -1,22 +1,19 @@
-#include <stdio.h>
-#include "libsdl.h"
-#include "hash.h"
-#include "grid.h"
-#include "game.h"
-#include "keyboard.h"
 #include <time.h>
 #include <math.h>
 
+#include "window.h"
+#include "grid.h"
+#include "game.h"
+#include "keyboard.h"
+
 int main(int argc, char *argv[]){
 	srand(time(NULL));
-	
-	startSDL();
-	Window *w = createWindow(500, 500, "Hashed Map!");
+	Window *w = createWindow(800, 600, "Hashed Map!", 50);
 	w->fsize = 10;
 
 	Keyboard key = {0};
 
-	Grid map = createGrid(10000);
+	Grid grid = createGrid(1);
 	Player player = {0};
 
 	while(!w->closed){
@@ -24,29 +21,16 @@ int main(int argc, char *argv[]){
 			setKeys(w->events, &key);
 			checkForClose(w);
 		}
-
-		if(key.up){
-			player.y -= 1;
-		}
-		if(key.down){
-			player.y += 1;
-		}
-		if(key.right){
-			player.x += 1;
-		}
-		if(key.left){
-			player.x -= 1;
-		}
+		player.x += key.right-key.left;
+		player.y += key.down-key.up;
 
 		clrScreen(w);
-		drawMap(w, map, player);
+		drawGrid(w, grid, player);
 		drawPlayer(w, player);
 
-		SDL_Flip(w->screen);
-		SDL_Delay(200);
+		update(w);
 	}
-
-	freeGrid(map);
+	freeGrid(grid);
 	endSDL(w);
 	return 0;
 }

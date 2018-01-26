@@ -14,5 +14,5 @@ int mapZZtoN(const int x, const int y){
 }
 
 int hash(const int x, const int y, const int max){
-	mapZZtoN(x, y)%max;
+	return mapZZtoN(x, y)%max;
 }

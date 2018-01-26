@@ -1,12 +1,14 @@
 #ifndef GRID
 #define GRID
 
+#include <stdio.h>
 #include <stdlib.h>
+#include "hash.h"
 
 typedef struct Element{
 	int x;
 	int y;
-	int value;
+	int	 *chunk;
 	int defined;
 	struct Element *next;
 } Element;
@@ -14,16 +16,15 @@ typedef struct Element{
 typedef struct Grid{
 	Element *e;
 	int max;
+	int size;
 } Grid;
+
+int *createChunk(const int);
 
 Grid createGrid(const int);
 
-Element *getElement(const Grid, const int, const int);
-
-int getGrid(const Grid, const int, const int);
-
-void setGrid(Grid, const int, const int, const int);
-
 void freeGrid(Grid);
+
+Element *getElement(Grid, const int, const int);
 
 #endif //GRID
